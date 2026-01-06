@@ -78,25 +78,25 @@
 
 //   //create Indexes
 
-//   // await Promise.all([
-//   //   databases.createIndex(
-//   //     db,
-//   //     questionCollection,
-//   //     "title",
-//   //     IndexType.Fulltext,
-//   //     ["title"],
-//   //     ["asc"]
-//   //   ),
+// await Promise.all([
+//   databases.createIndex(
+//     db,
+//     questionCollection,
+//     "title",
+//     IndexType.Fulltext,
+//     ["title"],
+//     ["asc"]
+//   ),
 
-//   //   databases.createIndex(
-//   //     db,
-//   //     questionCollection,
-//   //     "content",
-//   //     IndexType.Fulltext,
-//   //     ["content"],
-//   //     ["asc"]
-//   //   ),
-//   // ]);
+//   databases.createIndex(
+//     db,
+//     questionCollection,
+//     "content",
+//     IndexType.Fulltext,
+//     ["content"],
+//     ["asc"]
+//   ),
+// ]);
 // }
 
 import { IndexType, Permission, Role } from "node-appwrite";
@@ -156,5 +156,24 @@ export default async function createQuestionCollection() {
 
   console.log("Question Attributes created");
 
-  // indexes optional
+  // // indexes optional
+  // await Promise.all([
+  //   databases.createIndex(
+  //     db,
+  //     questionCollection,
+  //     "title",
+  //     IndexType.Fulltext,
+  //     ["title"],
+  //     ["asc"]
+  //   ),
+
+  //   databases.createIndex(
+  //     db,
+  //     questionCollection,
+  //     "content",
+  //     IndexType.Fulltext,
+  //     ["content"],
+  //     ["asc"]
+  //   ),
+  // ]);
 }
