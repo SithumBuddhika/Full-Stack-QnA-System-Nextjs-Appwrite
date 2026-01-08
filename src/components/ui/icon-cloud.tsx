@@ -557,7 +557,7 @@ export const IconCloud = memo(function IconCloud({
 
         return renderSimpleIcon({
           icon,
-          size: 42,
+          size: 72,
           aProps: {
             href: "#",
             onClick: (e: any) => e.preventDefault(),
@@ -575,8 +575,8 @@ export const IconCloud = memo(function IconCloud({
           depth: 0.9,
           initial: [0.1, -0.1],
           reverse: true,
-          maxSpeed: 0.03,
-          minSpeed: 0.02,
+          maxSpeed: 0.05,
+          minSpeed: 0.03,
         }}
       >
         {renderedIcons as any}
