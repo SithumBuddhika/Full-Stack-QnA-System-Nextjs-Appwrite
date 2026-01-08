@@ -140,7 +140,7 @@ import TopContributers from "@/app/components/TopContributers";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="h-[100svh] w-full overflow-hidden">
       <HeroSection />
 
       <div className="container mx-auto grid grid-cols-1 gap-6 px-4 pb-20 pt-10 lg:grid-cols-2">
