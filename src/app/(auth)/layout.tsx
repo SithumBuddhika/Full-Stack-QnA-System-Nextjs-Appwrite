@@ -26,25 +26,61 @@
 
 // export default Layout;
 
-// src/app/layout.tsx
-import "./globals.css";
-import type { Metadata } from "next";
+// // src/app/layout.tsx
+// import "./globals.css";
+// import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Inquierly",
-  description: "Ask questions, share knowledge, and collaborate.",
-};
+// export const metadata: Metadata = {
+//   title: "Inquierly",
+//   description: "Ask questions, share knowledge, and collaborate.",
+// };
 
-export default function RootLayout({
+// export default function RootLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   return (
+//     <html lang="en">
+//       <body className="min-h-screen bg-black text-white antialiased">
+//         {children}
+//       </body>
+//     </html>
+//   );
+// }
+
+// // src/app/(auth)/layout.tsx
+// import React from "react";
+
+// export default function AuthLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   return <>{children}</>;
+// }
+
+// // src/app/(auth)/layout.tsx
+// import React from "react";
+
+// export default function AuthLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   return <>{children}</>;
+// }
+
+import React from "react";
+
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-black text-white antialiased">
-        {children}
-      </body>
-    </html>
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 py-10">
+      {children}
+    </div>
   );
 }

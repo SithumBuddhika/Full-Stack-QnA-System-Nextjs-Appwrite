@@ -320,27 +320,231 @@
 //   )
 // }
 
+// "use client";
+
+// import React, { memo, useMemo } from "react";
+// import { cn } from "@/lib/utils";
+
+// // These are installed by shadcn when you add @magicui/icon-cloud.
+// // If you get a module-not-found error, run:
+// // npm i react-icon-cloud simple-icons
+
+// import { Cloud, renderSimpleIcon } from "react-icon-cloud";
+// import * as icons from "simple-icons";
+
+// export type IconCloudProps = {
+//   iconSlugs: string[];
+//   className?: string;
+// };
+
+// /**
+//  * IconCloud that matches the tutorial API:
+//  * <IconCloud iconSlugs={slugs} />
+//  */
+// export const IconCloud = memo(function IconCloud({
+//   iconSlugs,
+//   className,
+// }: IconCloudProps) {
+//   const renderedIcons = useMemo(() => {
+//     return iconSlugs
+//       .map((slug) => {
+//         // simple-icons exports are like siJavascript, siReact, etc.
+//         // In many magicui examples, they use the `simple-icons` lookup table approach.
+//         // Here we try to resolve by slug using the official simple-icons map.
+//         const key = `si${slug
+//           .replace(/(^\w|-\w)/g, (m) => m.replace("-", "").toUpperCase())
+//           .replace(/\./g, "")
+//           .replace(/\+/g, "Plus")}` as keyof typeof icons;
+
+//         const found = (icons as any)[key];
+//         if (!found) return null;
+
+//         return renderSimpleIcon({
+//           icon: found,
+//           size: 42,
+//           aProps: { href: "#", onClick: (e: any) => e.preventDefault() },
+//         });
+//       })
+//       .filter(Boolean);
+//   }, [iconSlugs]);
+
+//   return (
+//     <div className={cn("relative", className)}>
+//       <Cloud
+//         options={{
+//           wheelZoom: false,
+//           depth: 0.9,
+//           initial: [0.1, -0.1],
+//           reverse: true,
+//           maxSpeed: 0.03,
+//           minSpeed: 0.02,
+//         }}
+//       >
+//         {renderedIcons as any}
+//       </Cloud>
+//     </div>
+//   );
+// });
+
+// "use client";
+
+// import React, { memo, useMemo } from "react";
+// import { cn } from "@/lib/utils";
+
+// import { Cloud, renderSimpleIcon } from "react-icon-cloud";
+// // ✅ IMPORTANT: use the icons map (keys are slugs like "javascript", "nextdotjs", etc.)
+// import { icons } from "simple-icons";
+
+// export type IconCloudProps = {
+//   iconSlugs: string[];
+//   className?: string;
+// };
+
+// export const IconCloud = memo(function IconCloud({
+//   iconSlugs,
+//   className,
+// }: IconCloudProps) {
+//   const renderedIcons = useMemo(() => {
+//     return iconSlugs
+//       .map((slug) => {
+//         const icon = (icons as any)[slug];
+//         if (!icon) return null;
+
+//         return renderSimpleIcon({
+//           icon,
+//           size: 42,
+//           aProps: {
+//             href: "#",
+//             onClick: (e: any) => e.preventDefault(),
+//           },
+//         });
+//       })
+//       .filter(Boolean);
+//   }, [iconSlugs]);
+
+//   return (
+//     <div className={cn("h-full w-full", className)}>
+//       <Cloud
+//         containerProps={{
+//           className: "h-full w-full",
+//         }}
+//         options={{
+//           wheelZoom: false,
+//           depth: 0.9,
+//           initial: [0.1, -0.1],
+//           reverse: true,
+//           maxSpeed: 0.03,
+//           minSpeed: 0.02,
+//         }}
+//       >
+//         {renderedIcons as any}
+//       </Cloud>
+//     </div>
+//   );
+// });
+
+// "use client";
+
+// import React, { memo, useMemo } from "react";
+// import { cn } from "@/lib/utils";
+
+// import { Cloud, renderSimpleIcon } from "react-icon-cloud";
+// // ✅ IMPORTANT: use "simple-icons/icons" (NOT "simple-icons")
+// import * as icons from "simple-icons/icons";
+
+// export type IconCloudProps = {
+//   iconSlugs: string[];
+//   className?: string;
+// };
+
+// // Convert slug like "nextdotjs" -> "siNextdotjs"
+// // (simple-icons/icons exports names like siReact, siNextdotjs, siNodedotjs, etc.)
+// function slugToSimpleIconKey(slug: string) {
+//   // keep it simple: just capitalize first char
+//   return `si${slug.charAt(0).toUpperCase()}${slug.slice(1)}`;
+// }
+
+// export const IconCloud = memo(function IconCloud({
+//   iconSlugs,
+//   className,
+// }: IconCloudProps) {
+//   const renderedIcons = useMemo(() => {
+//     const items = iconSlugs
+//       .map((slug) => {
+//         const key = slugToSimpleIconKey(slug);
+//         const icon = (icons as any)[key];
+
+//         if (!icon) return null;
+
+//         return renderSimpleIcon({
+//           icon,
+//           size: 42,
+//           aProps: {
+//             href: "#",
+//             onClick: (e: any) => e.preventDefault(),
+//           },
+//         });
+//       })
+//       .filter(Boolean);
+
+//     return items;
+//   }, [iconSlugs]);
+
+//   return (
+//     <div className={cn("relative", className)}>
+//       <Cloud
+//         options={{
+//           wheelZoom: false,
+//           depth: 0.9,
+//           initial: [0.1, -0.1],
+//           reverse: true,
+//           maxSpeed: 0.03,
+//           minSpeed: 0.02,
+//         }}
+//       >
+//         {renderedIcons as any}
+//       </Cloud>
+//     </div>
+//   );
+// });
+
 "use client";
 
 import React, { memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
-// These are installed by shadcn when you add @magicui/icon-cloud.
-// If you get a module-not-found error, run:
-// npm i react-icon-cloud simple-icons
-
 import { Cloud, renderSimpleIcon } from "react-icon-cloud";
-import * as icons from "simple-icons";
+import * as simpleIcons from "simple-icons";
 
 export type IconCloudProps = {
   iconSlugs: string[];
   className?: string;
 };
 
-/**
- * IconCloud that matches the tutorial API:
- * <IconCloud iconSlugs={slugs} />
- */
+function toSiKey(slug: string) {
+  // "nextdotjs" -> "siNextdotjs"
+  // "visualstudiocode" -> "siVisualstudiocode"
+  // also handle "-" and "." and "+"
+  const cleaned = slug
+    .replace(/\./g, "")
+    .replace(/\+/g, "Plus")
+    .replace(/(^\w|-\w)/g, (m) => m.replace("-", "").toUpperCase());
+  return `si${cleaned}`;
+}
+
+function resolveIcon(slug: string) {
+  const lib: any = simpleIcons as any;
+
+  // Some versions expose: simpleIcons.icons["javascript"]
+  if (lib?.icons?.[slug]) return lib.icons[slug];
+
+  // Some versions expose: simpleIcons.siJavascript, etc.
+  const key = toSiKey(slug);
+  if (lib?.[key]) return lib[key];
+
+  return null;
+}
+
 export const IconCloud = memo(function IconCloud({
   iconSlugs,
   className,
@@ -348,28 +552,23 @@ export const IconCloud = memo(function IconCloud({
   const renderedIcons = useMemo(() => {
     return iconSlugs
       .map((slug) => {
-        // simple-icons exports are like siJavascript, siReact, etc.
-        // In many magicui examples, they use the `simple-icons` lookup table approach.
-        // Here we try to resolve by slug using the official simple-icons map.
-        const key = `si${slug
-          .replace(/(^\w|-\w)/g, (m) => m.replace("-", "").toUpperCase())
-          .replace(/\./g, "")
-          .replace(/\+/g, "Plus")}` as keyof typeof icons;
-
-        const found = (icons as any)[key];
-        if (!found) return null;
+        const icon = resolveIcon(slug);
+        if (!icon) return null;
 
         return renderSimpleIcon({
-          icon: found,
+          icon,
           size: 42,
-          aProps: { href: "#", onClick: (e: any) => e.preventDefault() },
+          aProps: {
+            href: "#",
+            onClick: (e: any) => e.preventDefault(),
+          },
         });
       })
       .filter(Boolean);
   }, [iconSlugs]);
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative h-full w-full", className)}>
       <Cloud
         options={{
           wheelZoom: false,
