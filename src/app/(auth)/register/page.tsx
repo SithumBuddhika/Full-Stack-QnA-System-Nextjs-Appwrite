@@ -2,15 +2,15 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/Auth";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
+import Meteors from "@/components/magicui/meteors";
 
-type LabelInputContainerProps = React.PropsWithChildren<{
-  className?: string;
-}>;
+type LabelInputContainerProps = React.PropsWithChildren<{ className?: string }>;
 
 function LabelInputContainer({
   children,
@@ -19,17 +19,10 @@ function LabelInputContainer({
   return <div className={cn("flex flex-col gap-2", className)}>{children}</div>;
 }
 
-function BottomGradient() {
-  return (
-    <>
-      <span className="pointer-events-none absolute inset-x-0 -bottom-px h-px w-full bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
-      <span className="pointer-events-none absolute inset-x-10 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
-    </>
-  );
-}
-
-function RegisterPage() {
+export default function RegisterPage() {
+  const router = useRouter();
   const { createAccount, login } = useAuthStore();
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
@@ -37,10 +30,10 @@ function RegisterPage() {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const firstname = formData.get("firstname");
-    const lastname = formData.get("lastname");
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const firstname = String(formData.get("firstname") || "");
+    const lastname = String(formData.get("lastname") || "");
+    const email = String(formData.get("email") || "");
+    const password = String(formData.get("password") || "");
 
     if (!firstname || !lastname || !email || !password) {
       setError("Please fill out all the fields");
@@ -50,133 +43,169 @@ function RegisterPage() {
     setIsLoading(true);
     setError("");
 
-    const fullName = `${firstname.toString()} ${lastname.toString()}`;
-    const emailStr = email.toString();
-    const passwordStr = password.toString();
+    const fullName = `${firstname} ${lastname}`;
 
-    const response = await createAccount(fullName, emailStr, passwordStr);
-
-    if (response?.error) {
-      setError(response.error.message);
+    const res = await createAccount(fullName, email, password);
+    if (res?.error) {
+      setError(res.error.message);
       setIsLoading(false);
       return;
     }
 
-    const loginResponse = await login(emailStr, passwordStr);
-    if (loginResponse?.error) {
-      setError(loginResponse.error.message);
+    const loginRes = await login(email, password);
+    if (loginRes?.error) {
+      setError(loginRes.error.message);
+      setIsLoading(false);
+      return;
     }
 
+    router.push("/questions");
     setIsLoading(false);
   };
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-none border border-solid border-white/30 bg-white p-4 shadow-input dark:bg-black md:rounded-2xl md:p-8">
-      <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
-        Welcome to Inquierly
-      </h2>
+    // ✅ DO NOT set bg-black here — let (auth)/layout.tsx render the background
+    <div className="min-h-[100svh] w-full overflow-hidden text-white">
+      <div className="mx-auto flex min-h-[100svh] w-full items-center justify-center px-4">
+        <div className="w-full max-w-5xl">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl">
+            <Meteors number={10} />
 
-      <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
-        Signup with Inquierly if you don&apos;t have an account.
-        <br /> If you already have an account,{" "}
-        <Link href="/login" className="text-orange-500 hover:underline">
-          login
-        </Link>{" "}
-        to Inquierly
-      </p>
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              {/* Left panel */}
+              <div className="relative hidden md:block">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,211,25,0.22),transparent_55%),radial-gradient(circle_at_70%_65%,rgba(255,41,117,0.22),transparent_55%),radial-gradient(circle_at_45%_40%,rgba(140,30,255,0.30),transparent_55%)]" />
+                {/* ✅ centered text (this is what you wanted) */}
+                <div className="relative z-10 flex h-full flex-col justify-center p-10">
+                  <div className="text-center md:text-left">
+                    <h1 className="bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-5xl font-extrabold tracking-tight text-transparent">
+                      Inquierly
+                    </h1>
+                    <p className="mt-3 max-w-sm text-sm text-white/70">
+                      Create your account and start asking questions.
+                    </p>
+                  </div>
 
-      {error && (
-        <p className="mt-8 text-center text-sm text-red-500 dark:text-red-400">
-          {error}
-        </p>
-      )}
+                  <div className="mt-10 space-y-2 text-xs text-white/60">
+                    <p>• Post questions with tags</p>
+                    <p>• Upload a related image</p>
+                    <p>• Build reputation over time</p>
+                  </div>
+                </div>
+              </div>
 
-      <form className="my-8" onSubmit={handleSubmit}>
-        <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
-          <LabelInputContainer>
-            <Label htmlFor="firstname">First name</Label>
-            <Input
-              className="text-black"
-              id="firstname"
-              name="firstname"
-              placeholder="Tyler"
-              type="text"
-            />
-          </LabelInputContainer>
+              {/* Form */}
+              <div className="relative z-10 p-7 md:p-10">
+                <h2 className="text-2xl font-bold text-white">Sign up</h2>
+                <p className="mt-1 text-sm text-white/70">
+                  Already have an account?{" "}
+                  <Link
+                    href="/login"
+                    className="text-orange-400 hover:underline"
+                  >
+                    Log in
+                  </Link>
+                  .
+                </p>
 
-          <LabelInputContainer>
-            <Label htmlFor="lastname">Last name</Label>
-            <Input
-              className="text-black"
-              id="lastname"
-              name="lastname"
-              placeholder="Darden"
-              type="text"
-            />
-          </LabelInputContainer>
+                {error && (
+                  <div className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                    {error}
+                  </div>
+                )}
+
+                <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <LabelInputContainer>
+                      <Label htmlFor="firstname" className="text-white/80">
+                        First name
+                      </Label>
+                      <Input
+                        id="firstname"
+                        name="firstname"
+                        type="text"
+                        placeholder="first name"
+                        className="h-11 border-white/10 bg-black/30 text-white placeholder:text-white/40 focus-visible:ring-orange-500"
+                      />
+                    </LabelInputContainer>
+
+                    <LabelInputContainer>
+                      <Label htmlFor="lastname" className="text-white/80">
+                        Last name
+                      </Label>
+                      <Input
+                        id="lastname"
+                        name="lastname"
+                        type="text"
+                        placeholder="last name"
+                        className="h-11 border-white/10 bg-black/30 text-white placeholder:text-white/40 focus-visible:ring-orange-500"
+                      />
+                    </LabelInputContainer>
+                  </div>
+
+                  <LabelInputContainer>
+                    <Label htmlFor="email" className="text-white/80">
+                      Email Address
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="you@example.com"
+                      className="h-11 border-white/10 bg-black/30 text-white placeholder:text-white/40 focus-visible:ring-orange-500"
+                    />
+                  </LabelInputContainer>
+
+                  <LabelInputContainer>
+                    <Label htmlFor="password" className="text-white/80">
+                      Password
+                    </Label>
+                    <Input
+                      id="password"
+                      name="password"
+                      type="password"
+                      placeholder="••••••••"
+                      className="h-11 border-white/10 bg-black/30 text-white placeholder:text-white/40 focus-visible:ring-orange-500"
+                    />
+                  </LabelInputContainer>
+
+                  <button
+                    className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#ffd319] via-[#ff2975] to-[#8c1eff] px-4 font-semibold text-black shadow-lg shadow-fuchsia-500/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Creating..." : "Create account"}
+                  </button>
+
+                  <div className="my-4 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <button
+                      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 text-sm font-medium text-white/90 transition hover:bg-white/10"
+                      type="button"
+                      disabled={isLoading}
+                    >
+                      <IconBrandGoogle className="h-4 w-4 shrink-0" />
+                      <span className="truncate">Continue with Google</span>
+                    </button>
+
+                    <button
+                      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 text-sm font-medium text-white/90 transition hover:bg-white/10"
+                      type="button"
+                      disabled={isLoading}
+                    >
+                      <IconBrandGithub className="h-4 w-4 shrink-0" />
+                      <span className="truncate">Continue with GitHub</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+          </div>
         </div>
-
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="email">Email Address</Label>
-          <Input
-            className="text-black"
-            id="email"
-            name="email"
-            placeholder="projectmayhem@fc.com"
-            type="email"
-          />
-        </LabelInputContainer>
-
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="password">Password</Label>
-          <Input
-            className="text-black"
-            id="password"
-            name="password"
-            placeholder="••••••••"
-            type="password"
-          />
-        </LabelInputContainer>
-
-        <button
-          className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-          type="submit"
-          disabled={isLoading}
-        >
-          Sign up &rarr;
-          <BottomGradient />
-        </button>
-
-        <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
-
-        <div className="flex flex-col space-y-4">
-          <button
-            className="group/btn relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black shadow-input dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="button"
-            disabled={isLoading}
-          >
-            <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-sm text-neutral-700 dark:text-neutral-300">
-              Google
-            </span>
-            <BottomGradient />
-          </button>
-
-          <button
-            className="group/btn relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black shadow-input dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="button"
-            disabled={isLoading}
-          >
-            <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-sm text-neutral-700 dark:text-neutral-300">
-              GitHub
-            </span>
-            <BottomGradient />
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 }
-
-export default RegisterPage;
