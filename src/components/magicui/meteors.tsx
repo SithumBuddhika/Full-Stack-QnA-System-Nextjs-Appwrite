@@ -40,4 +40,7 @@ export const Meteors = ({ number = 20 }: MeteorsProps) => {
   );
 };
 
-export default Meteors;
+// export default Meteors;
+
+// src/components/magicui/meteors.tsx
+export { Meteors as default } from "@/components/ui/meteors";

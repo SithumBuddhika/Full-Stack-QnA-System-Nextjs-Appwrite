@@ -330,9 +330,9 @@ import Answers from "@/components/Answers";
 import Comments from "@/components/Comments";
 import { MarkdownPreview } from "@/components/RTE";
 import VoteButtons from "@/components/VoteButtons";
-import Particles from "@/components/magicui/particles";
-import ShimmerButton from "@/components/magicui/shimmer-button";
+import Particles from "@/components/ui/particles";
 import { TracingBeam } from "@/components/ui/tracing-beam";
+import ShimmerButton from "@/components/ui/shimmer-button";
 
 import { avatars, storage } from "@/models/client/config";
 import {
