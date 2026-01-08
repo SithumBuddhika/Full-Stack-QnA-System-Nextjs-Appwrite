@@ -658,6 +658,169 @@
 //   );
 // };
 
+///////////////////////////////////////////////////////////////
+
+// "use client";
+
+// import React from "react";
+// import {
+//   motion,
+//   useScroll,
+//   useTransform,
+//   useSpring,
+//   MotionValue,
+// } from "framer-motion";
+// import Link from "next/link";
+
+// type Product = {
+//   id: string;
+//   title: string;
+//   link: string;
+//   thumbnail?: string; // ✅ can be missing
+// };
+
+// function safeImgSrc(src?: string) {
+//   const s = String(src || "");
+//   if (!s) return "/placeholder.png";
+//   if (s.startsWith("http://") || s.startsWith("https://") || s.startsWith("/"))
+//     return s;
+//   return "/placeholder.png";
+// }
+
+// export const HeroParallax = ({
+//   products,
+//   header,
+// }: {
+//   header: React.ReactNode;
+//   products: Product[];
+// }) => {
+//   const firstRow = products.slice(0, 5);
+//   const secondRow = products.slice(5, 10);
+//   const thirdRow = products.slice(10, 15);
+
+//   const ref = React.useRef<HTMLDivElement | null>(null);
+
+//   const { scrollYProgress } = useScroll({
+//     target: ref,
+//     offset: ["start start", "end start"],
+//   });
+
+//   const springConfig = { stiffness: 300, damping: 30, bounce: 100 };
+
+//   const translateX = useSpring(
+//     useTransform(scrollYProgress, [0, 1], [0, 1000]),
+//     springConfig
+//   );
+//   const translateXReverse = useSpring(
+//     useTransform(scrollYProgress, [0, 1], [0, -1000]),
+//     springConfig
+//   );
+
+//   const rotateX = useSpring(
+//     useTransform(scrollYProgress, [0, 0.2], [15, 0]),
+//     springConfig
+//   );
+//   const opacity = useSpring(
+//     useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
+//     springConfig
+//   );
+//   const rotateZ = useSpring(
+//     useTransform(scrollYProgress, [0, 0.2], [20, 0]),
+//     springConfig
+//   );
+//   const translateY = useSpring(
+//     useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
+//     springConfig
+//   );
+
+//   return (
+//     <div
+//       ref={ref}
+//       className="relative flex h-[300vh] flex-col overflow-hidden py-40 antialiased [perspective:1000px] [transform-style:preserve-3d]"
+//     >
+//       {header}
+
+//       <motion.div
+//         style={{ rotateX, rotateZ, translateY, opacity }}
+//         className=""
+//       >
+//         <motion.div className="mb-20 flex flex-row-reverse space-x-20 space-x-reverse">
+//           {firstRow.map((product) => (
+//             <ProductCard
+//               product={product}
+//               translate={translateX}
+//               key={product.id} // ✅ unique key
+//             />
+//           ))}
+//         </motion.div>
+
+//         <motion.div className="mb-20 flex flex-row space-x-20">
+//           {secondRow.map((product) => (
+//             <ProductCard
+//               product={product}
+//               translate={translateXReverse}
+//               key={product.id} // ✅ unique key
+//             />
+//           ))}
+//         </motion.div>
+
+//         <motion.div className="flex flex-row-reverse space-x-20 space-x-reverse">
+//           {thirdRow.map((product) => (
+//             <ProductCard
+//               product={product}
+//               translate={translateX}
+//               key={product.id} // ✅ unique key
+//             />
+//           ))}
+//         </motion.div>
+//       </motion.div>
+//     </div>
+//   );
+// };
+
+// export const ProductCard = ({
+//   product,
+//   translate,
+// }: {
+//   product: Product;
+//   translate: MotionValue<number>;
+// }) => {
+//   const imgSrc = safeImgSrc(product.thumbnail);
+
+//   return (
+//     <motion.div
+//       style={{ x: translate }}
+//       whileHover={{ y: -20 }}
+//       className="group/product relative h-96 w-[30rem] flex-shrink-0"
+//     >
+//       <Link
+//         href={product.link}
+//         className="block h-full w-full overflow-hidden rounded-2xl group-hover/product:shadow-2xl"
+//       >
+//         {/* ✅ Use <img> to avoid next/image URL + Appwrite transform issues */}
+//         <img
+//           src={imgSrc}
+//           alt={product.title}
+//           className="absolute inset-0 h-full w-full object-cover object-left-top"
+//           loading="lazy"
+//           onError={(e) => {
+//             const el = e.currentTarget;
+//             if (el.src.includes("/placeholder.png")) return;
+//             el.src = "/placeholder.png";
+//           }}
+//         />
+//       </Link>
+
+//       <div className="pointer-events-none absolute inset-0 h-full w-full bg-black opacity-0 transition group-hover/product:opacity-80" />
+
+//       <h2 className="absolute bottom-4 left-4 text-white opacity-0 transition group-hover/product:opacity-100">
+//         {product.title}
+//       </h2>
+//     </motion.div>
+//   );
+// };
+
+/////////////////////////////////////////////////////////////////
 "use client";
 
 import React from "react";
@@ -668,36 +831,28 @@ import {
   useSpring,
   MotionValue,
 } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
-type Product = {
+export type HeroProduct = {
   id: string;
   title: string;
   link: string;
-  thumbnail?: string; // ✅ can be missing
+  thumbnail: string; // ✅ must be string
 };
-
-function safeImgSrc(src?: string) {
-  const s = String(src || "");
-  if (!s) return "/placeholder.png";
-  if (s.startsWith("http://") || s.startsWith("https://") || s.startsWith("/"))
-    return s;
-  return "/placeholder.png";
-}
 
 export const HeroParallax = ({
   products,
   header,
 }: {
   header: React.ReactNode;
-  products: Product[];
+  products: HeroProduct[];
 }) => {
   const firstRow = products.slice(0, 5);
   const secondRow = products.slice(5, 10);
   const thirdRow = products.slice(10, 15);
 
   const ref = React.useRef<HTMLDivElement | null>(null);
-
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -713,7 +868,6 @@ export const HeroParallax = ({
     useTransform(scrollYProgress, [0, 1], [0, -1000]),
     springConfig
   );
-
   const rotateX = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [15, 0]),
     springConfig
@@ -734,7 +888,7 @@ export const HeroParallax = ({
   return (
     <div
       ref={ref}
-      className="relative flex h-[300vh] flex-col overflow-hidden py-40 antialiased [perspective:1000px] [transform-style:preserve-3d]"
+      className="relative flex h-[300vh] flex-col self-auto overflow-hidden py-40 antialiased [perspective:1000px] [transform-style:preserve-3d]"
     >
       {header}
 
@@ -745,9 +899,9 @@ export const HeroParallax = ({
         <motion.div className="mb-20 flex flex-row-reverse space-x-20 space-x-reverse">
           {firstRow.map((product) => (
             <ProductCard
+              key={product.id} // ✅ unique key
               product={product}
               translate={translateX}
-              key={product.id} // ✅ unique key
             />
           ))}
         </motion.div>
@@ -755,9 +909,9 @@ export const HeroParallax = ({
         <motion.div className="mb-20 flex flex-row space-x-20">
           {secondRow.map((product) => (
             <ProductCard
+              key={product.id} // ✅ unique key
               product={product}
               translate={translateXReverse}
-              key={product.id} // ✅ unique key
             />
           ))}
         </motion.div>
@@ -765,9 +919,9 @@ export const HeroParallax = ({
         <motion.div className="flex flex-row-reverse space-x-20 space-x-reverse">
           {thirdRow.map((product) => (
             <ProductCard
+              key={product.id} // ✅ unique key
               product={product}
               translate={translateX}
-              key={product.id} // ✅ unique key
             />
           ))}
         </motion.div>
@@ -780,11 +934,9 @@ export const ProductCard = ({
   product,
   translate,
 }: {
-  product: Product;
+  product: HeroProduct;
   translate: MotionValue<number>;
 }) => {
-  const imgSrc = safeImgSrc(product.thumbnail);
-
   return (
     <motion.div
       style={{ x: translate }}
@@ -793,25 +945,21 @@ export const ProductCard = ({
     >
       <Link
         href={product.link}
-        className="block h-full w-full overflow-hidden rounded-2xl group-hover/product:shadow-2xl"
+        className="block group-hover/product:shadow-2xl"
       >
-        {/* ✅ Use <img> to avoid next/image URL + Appwrite transform issues */}
-        <img
-          src={imgSrc}
+        <Image
+          src={product.thumbnail}
+          height={600}
+          width={600}
+          unoptimized
+          className="absolute inset-0 h-full w-full rounded-2xl object-cover object-left-top"
           alt={product.title}
-          className="absolute inset-0 h-full w-full object-cover object-left-top"
-          loading="lazy"
-          onError={(e) => {
-            const el = e.currentTarget;
-            if (el.src.includes("/placeholder.png")) return;
-            el.src = "/placeholder.png";
-          }}
         />
       </Link>
 
-      <div className="pointer-events-none absolute inset-0 h-full w-full bg-black opacity-0 transition group-hover/product:opacity-80" />
+      <div className="pointer-events-none absolute inset-0 h-full w-full rounded-2xl bg-black opacity-0 group-hover/product:opacity-80" />
 
-      <h2 className="absolute bottom-4 left-4 text-white opacity-0 transition group-hover/product:opacity-100">
+      <h2 className="absolute bottom-4 left-4 text-white opacity-0 group-hover/product:opacity-100">
         {product.title}
       </h2>
     </motion.div>
