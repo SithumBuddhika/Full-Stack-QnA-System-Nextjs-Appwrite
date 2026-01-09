@@ -1,36 +1,239 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Inquierly 💡🧠
 
-## Getting Started
+A Modern Stack Overflow–Inspired Q&A Platform
 
-First, run the development server:
+Inquierly is a full-stack, production-ready Question & Answer web application inspired by Stack Overflow.
+It enables developers to ask questions, share knowledge, vote, and collaborate in a visually rich and performant environment.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Built with Next.js App Router, Appwrite, and modern UI/animation libraries, Inquierly focuses on clean UX, real-time data, and scalable architecture.
+
+---
+
+> **Notice:**  
+> This project was developed as part of a **Web Development course tutorial assignment** to practice and understand **Next.js**, **TypeScript**, and **full-stack development with Appwrite**.  
+> It is intended for **educational and learning purposes** and not for production use.
+
+---
+
+## ss
+
+## 🚀 Features
+
+### 👤 Authentication & User Profiles
+
+- Secure authentication (Register / Login)
+- Public user profiles with:
+  - Reputation system
+  - Questions asked
+  - Answers given
+  - Votes received
+- Profile editing (owner-only)
+- SEO-friendly slug-based profile URLs
+
+---
+
+### ❓ Questions & Answers
+
+- Ask questions with:
+  - Title
+  - Rich text content
+  - Tags
+  - Image attachments
+- Edit & delete your own questions
+- Answer questions
+- Upvote / downvote questions and answers
+- Search & pagination
+- Real-time data updates using Appwrite
+
+---
+
+### 🌌 UI / UX
+
+- Floating navigation bar with active state
+- Animated hero section
+- Particle & gradient backgrounds
+- Icon cloud technology showcase
+- Smooth animations and transitions
+- Fully responsive layout
+- Dark-themed, developer-focused design
+
+---
+
+### ⚙️ Performance & Architecture
+
+- Next.js **App Router**
+- Server Components for data fetching
+- Client Components only where needed
+- Hydration-safe animations
+- Clean separation of concerns
+- Scalable folder structure
+
+---
+
+## 🧱 Tech Stack
+
+### Frontend
+
+- **Next.js 16 (App Router)**
+- **React 18**
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion**
+- **Magic UI / Custom UI Components**
+
+### Backend
+
+- **Appwrite**
+  - Authentication
+  - Databases
+  - Storage (image attachments)
+  - User management
+  - Permissions
+
+### State & Utilities
+
+- Zustand (authentication store)
+- Slug generation
+- Relative time formatting
+- Custom reusable hooks & helpers
+
+---
+
+## 📂 Project Structure
+
+```txt
+INQUIERLY-APPWRITE
+├── public
+│   ├── placeholder.png
+│   ├── globe.svg
+│   ├── next.svg
+│   └── window.svg
+│
+├── src
+│   ├── app
+│   │   ├── (auth)
+│   │   │   ├── login
+│   │   │   ├── register
+│   │   │   └── layout.tsx
+│   │   │
+│   │   ├── api
+│   │   │   ├── answer
+│   │   │   └── vote
+│   │   │
+│   │   ├── components
+│   │   │   ├── Header.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   ├── HeroSection.tsx
+│   │   │   ├── HeroSectionHeader.tsx
+│   │   │   ├── LatestQuestions.tsx
+│   │   │   └── TopContributors.tsx
+│   │   │
+│   │   ├── questions
+│   │   │   ├── ask
+│   │   │   ├── [quesId]/[quesName]
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── users
+│   │   │   └── [userId]/[userSlug]
+│   │   │       ├── answers
+│   │   │       ├── questions
+│   │   │       ├── votes
+│   │   │       ├── edit
+│   │   │       ├── Navbar.tsx
+│   │   │       ├── layout.tsx
+│   │   │       └── page.tsx
+│   │   │
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   │
+│   ├── components
+│   │   ├── QuestionForm.tsx
+│   │   ├── QuestionCard.tsx
+│   │   ├── VoteButtons.tsx
+│   │   ├── Pagination.tsx
+│   │   └── RTE.tsx
+│   │
+│   ├── components/ui
+│   │   ├── floating-navbar.tsx
+│   │   ├── hero-parallax.tsx
+│   │   ├── icon-cloud.tsx
+│   │   ├── particles.tsx
+│   │   ├── magic-card.tsx
+│   │   └── number-ticker.tsx
+│   │
+│   ├── models
+│   │   ├── client
+│   │   │   └── config.ts
+│   │   └── server
+│   │       ├── config.ts
+│   │       ├── question.collection.ts
+│   │       ├── answer.collection.ts
+│   │       └── vote.collection.ts
+│   │
+│   ├── store
+│   │   └── Auth.ts
+│   │
+│   ├── utils
+│   │   ├── slugify.ts
+│   │   └── relativeTime.ts
+│   │
+│   └── types
+│       └── qna.ts
+│
+├── .env
+├── .env.sample
+├── tailwind.config.ts
+├── next.config.ts
+├── tsconfig.json
+├── package.json
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔐 Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+NEXT_PUBLIC_APPWRITE_HOST_URL=
+NEXT_PUBLIC_APPWRITE_PROJECT_ID=
+APPWRITE_API_KEY=
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Setup & Run Locally
 
-To learn more about Next.js, take a look at the following resources:
+```
+# Install dependencies
+npm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Start development server
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Visit:
+👉 http://localhost:3000
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧠 Key Design Decisions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js App Router for scalability
+- Server Components for data fetching
+- Client Components only where interactivity is needed
+- Appwrite for backend simplicity
+- Reusable UI primitives for consistency
+
+---
+
+## 📚 Inspiration
+
+- Stack Overflow
+- GitHub Discussions
+- Modern SaaS dashboards
+- Developer-first UX principles
+
+---
+
+## 🔎 Contact
+
+- Email: [officialsithumbuddhika@gmail.com](mailto:officialsithumbuddhika@gmail.com)
+- LinkedIn: [Sithum Buddhika Jayalal](https://www.linkedin.com/in/sithum-buddhika-jayalal-827860341)
