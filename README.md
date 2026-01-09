@@ -13,9 +13,9 @@ Built with Next.js App Router, Appwrite, and modern UI/animation libraries, Inqu
 > This project was developed as part of a **Web Development course tutorial assignment** to practice and understand **Next.js**, **TypeScript**, and **full-stack development with Appwrite**.  
 > It is intended for **educational and learning purposes** and not for production use.
 
----
-
-## ss
+<p align="center">
+  <img src="src/screenshots/ss.png" alt="Login Page UI" width="800"/>
+</p>
 
 ## 🚀 Features
 
