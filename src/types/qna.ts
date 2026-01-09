@@ -109,6 +109,58 @@
 //   author: AuthorLite;
 // };
 
+// // src/types/qna.ts
+// import type { Models } from "appwrite";
+
+// export type AuthorLite = {
+//   $id: string;
+//   name: string;
+//   reputation: number;
+// };
+
+// export type VoteList = Models.DocumentList<Models.Document>;
+
+// export type CommentDoc = Models.Document & {
+//   content: string;
+//   authorId: string;
+//   type: "question" | "answer";
+//   typeId: string;
+//   author: AuthorLite;
+// };
+
+// export type CommentList = Models.DocumentList<CommentDoc>;
+
+// export type AnswerDoc = Models.Document & {
+//   content: string;
+//   authorId: string;
+//   questionId: string;
+
+//   author: AuthorLite;
+//   comments: CommentList;
+
+//   upvotesDocuments: VoteList;
+//   downvotesDocuments: VoteList;
+// };
+
+// export type AnswerList = Models.DocumentList<AnswerDoc>;
+
+// export type QuestionDoc = Models.Document & {
+//   title: string;
+//   content: string;
+//   tags: string[];
+//   authorId: string;
+//   attachmentId?: string; // allow undefined if optional
+// };
+
+// export type QuestionCardDoc = Models.Document & {
+//   title: string;
+//   tags: string[];
+//   totalVotes: number;
+//   totalAnswers: number;
+//   author: AuthorLite;
+// };
+
+//////////////////////////////////
 // src/types/qna.ts
 import type { Models } from "appwrite";
 
@@ -118,7 +170,16 @@ export type AuthorLite = {
   reputation: number;
 };
 
-export type VoteList = Models.DocumentList<Models.Document>;
+// ✅ ADD THIS (used by VoteButtons + API vote result)
+export type VoteDoc = Models.Document & {
+  voteStatus: "upvoted" | "downvoted";
+  votedById: string;
+  type: "question" | "answer";
+  typeId: string;
+};
+
+// ✅ Make VoteList strongly typed (same structure, better typing)
+export type VoteList = Models.DocumentList<VoteDoc>;
 
 export type CommentDoc = Models.Document & {
   content: string;
