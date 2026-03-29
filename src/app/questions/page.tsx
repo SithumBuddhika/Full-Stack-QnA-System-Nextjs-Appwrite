@@ -37,14 +37,14 @@ export default async function Page({
       Query.or([
         Query.search("title", sp.search),
         Query.search("content", sp.search),
-      ])
+      ]),
     );
   }
 
   const questions = await databases.listDocuments(
     db,
     questionCollection,
-    queries
+    queries,
   );
 
   const mapped = await Promise.all(
@@ -76,14 +76,15 @@ export default async function Page({
       };
 
       return doc;
-    })
+    }),
   );
 
   return (
-    <div className="container mx-auto px-4 pb-20 pt-36">
-      <div className="mb-10 flex items-center justify-between">
+    <div className="mx-auto w-full max-w-6xl px-4 pb-20 pt-36 sm:px-6">
+      <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-3xl font-bold">All Questions</h1>
-        <Link href="/questions/ask">
+
+        <Link href="/questions/ask" className="shrink-0">
           <ShimmerButton className="shadow-2xl">
             <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white lg:text-lg">
               Ask a question
@@ -92,7 +93,7 @@ export default async function Page({
         </Link>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 w-full">
         <Search />
       </div>
 
@@ -100,7 +101,7 @@ export default async function Page({
         <p>{questions.total} questions</p>
       </div>
 
-      <div className="mb-4 max-w-3xl space-y-6">
+      <div className="mb-4 w-full max-w-3xl space-y-6">
         {mapped.map((ques) => (
           <QuestionCard key={ques.$id} ques={ques} />
         ))}

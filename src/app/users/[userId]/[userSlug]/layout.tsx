@@ -28,7 +28,7 @@ export default async function Layout({
     <div className="relative min-h-[100svh] w-full overflow-x-hidden bg-black text-white">
       {/* background */}
       <Particles
-        className="fixed inset-0 -z-10 h-full w-full"
+        className="pointer-events-none fixed inset-0 -z-10 h-full w-full"
         quantity={500}
         ease={80}
         color="#ffffff"
