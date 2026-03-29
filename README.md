@@ -10,7 +10,7 @@ Built with Next.js App Router, Appwrite, and modern UI/animation libraries, Inqu
 ---
 
 > **Notice:**  
-> This project was developed as part of a **Web Development course tutorial assignment** to practice and understand **Next.js**, **TypeScript**, and **full-stack development with Appwrite**.  
+> This project was developed as part of a **Web Development course assignment** to practice and understand **Next.js**, **TypeScript**, and **full-stack development with Appwrite**.  
 > It is intended for **educational and learning purposes** and not for production use.
 
 <p align="center">
